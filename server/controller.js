@@ -1,101 +1,78 @@
 const helpers = require('../database/dbhelpers.js');
 
 const controller = {
-  getQuestion(req, res) => {
-    helpers.getQuestion(err, data) => {
+  getQuestions: (req, res) => {
+    helpers.getQuestions(req, (err, data) => {
       if (err) {
-        res.status(400).send(err)
+        res.status(400).send(err);
       } else {
-        res.status(200).send(data)
+        res.status(200).send(data);
       }
-    }
+    })
+  },
+  postQuestion: (req, res) => {
+    helpers.postQuestion(req, (err, data) => {
+      if (err) {
+        res.status(400).send(err);
+      } else {
+        res.status(201).send(data);
+      }
+    })
+  },
+  getAnswers: (req, res) => {
+    helpers.getAnswers(req, (err, data) => {
+      if (err) {
+        res.status(400).send(err);
+      } else {
+        res.status(200).send(data);
+      }
+    })
+  },
+  postAnswer: (req, res) => {
+    helpers.postAnswer(req, (err, data) => {
+      if (err) {
+        res.status(400).send(err);
+      } else {
+        res.status(201).send(data);
+      }
+    })
+  },
+  voteAnswerHelpful: (req, res) => {
+    helpers.voteAnswerHelpful(req, (err, data) => {
+      if (err) {
+        res.status(400).send(err);
+      } else {
+        res.status(204).send(data);
+      }
+    })
+  },
+  voteQuestionHelpful: (req, res) => {
+    helpers.voteQuestionHelpful(req, (err, data) => {
+      if (err) {
+        res.status(400).send(err);
+      } else {
+        res.status(204).send(data);
+      }
+    })
+  },
+  reportQuestion: (req, res) => {
+    helpers.reportQuestion(req, (err, data) => {
+      if (err) {
+        res.status(400).send(err);
+      } else {
+        res.status(204).send(data);
+      }
+    })
+  },
+  reportAnswer: (req, res) => {
+    helpers.reportAnswer(req, (err, data) => {
+      if (err) {
+        res.status(400).send(err);
+      } else {
+        res.status(204).send(data);
+      }
+    })
   }
 };
-
-// const controller = {
-//   //retrieve questions from productId
-//   getQnA: (req, res) => {
-//     getQnA.getQnA(req, (err, data) => {
-//       if (err) {
-//         res.status(400).send(err);
-//       } else {
-//         res.status(200).send(data);
-//       }
-//     });
-//   },
-
-//   //post new question
-//   postQuestion: (req, res) => {
-//     console.log(req.body)
-//     getQnA.postQuestion(req, (err, data) => {
-//       if (err) {
-//         res.status(400).send(err);
-//       } else {
-//         res.status(200).send(data);
-//       }
-//     })
-//   },
-//   //post new answer
-//   postAnswer: (req, res) => {
-//     getQnA.postAnswer(req, (err, data) => {
-//       console.log(req.body)
-//       if (err) {
-//         res.status(400).send(err);
-//       } else {
-//         res.status(200).send(data);
-//       }
-//     })
-//   },
-//   //get new Answer
-//   getAnswers: (req, res) => {
-//     getQnA.getAnswers(req, (err, data) => {
-//       if (err) {
-//         res.status(400).send(err);
-//       } else {
-//         res.status(200).send(data);
-//       }
-//     });
-//   },
-//   reportAnswer: (req, res) => {
-//     getQnA.reportAnswer(req, (err, data) => {
-//       console.log(req.body)
-//       if (err) {
-//         res.status(400).send(err);
-//       } else {
-//         res.status(204).send('NO CONTENT');
-//       }
-//     });
-//   },
-//   reportQuestion: (req, res) => {
-//     getQnA.reportQuestion(req, (err, data) => {
-//       console.log(req.body)
-//       if (err) {
-//         res.status(400).send(err);
-//       } else {
-//         res.status(204).send('NO CONTENT');
-//       }
-//     });
-//   },
-//   voteHelpful: (req, res) => {
-//     getQnA.voteHelpful(req, (err, data) => {
-//       console.log(req.body)
-//       if (err) {
-//         res.status(400).send(err);
-//       } else {
-//         res.status(204).send('NO CONTENT');
-//       }
-//     });
-//   },
-//   voteQuestionHelpful: (req, res) => {
-//     getQnA.voteQuestionHelpful(req, (err, data) => {
-//       console.log(req.body)
-//       if (err) {
-//         res.status(400).send(err);
-//       } else {
-//         res.status(204).send('NO CONTENT');
-//       }
-//     });
-//   },
-// };
 
 module.exports = controller;
