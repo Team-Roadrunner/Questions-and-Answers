@@ -6,7 +6,10 @@ const controller = {
       if (err) {
         res.status(400).send(err);
       } else {
-        res.status(200).send(data);
+        res.status(200).send({
+          product_id: data[0].product_id,
+          results: data
+        });
       }
     })
   },
@@ -15,7 +18,7 @@ const controller = {
       if (err) {
         res.status(400).send(err);
       } else {
-        res.status(201).send(data);
+        res.status(201).send('Posted!');
       }
     })
   },
@@ -24,7 +27,13 @@ const controller = {
       if (err) {
         res.status(400).send(err);
       } else {
-        res.status(200).send(data);
+        data = data[0].toJSON()
+        res.status(200).send({
+          question: data.question_id,
+          page: 0,
+          count: 5,
+          results: data.answers
+        });
       }
     })
   },
@@ -33,7 +42,7 @@ const controller = {
       if (err) {
         res.status(400).send(err);
       } else {
-        res.status(201).send(data);
+        res.status(201).send('Posted!');
       }
     })
   },
@@ -42,7 +51,7 @@ const controller = {
       if (err) {
         res.status(400).send(err);
       } else {
-        res.status(204).send(data);
+        res.json(data);
       }
     })
   },
@@ -51,7 +60,7 @@ const controller = {
       if (err) {
         res.status(400).send(err);
       } else {
-        res.status(204).send(data);
+        res.json(data);
       }
     })
   },
@@ -60,7 +69,7 @@ const controller = {
       if (err) {
         res.status(400).send(err);
       } else {
-        res.status(204).send(data);
+        res.status(204).send('Reported!');
       }
     })
   },
@@ -69,7 +78,7 @@ const controller = {
       if (err) {
         res.status(400).send(err);
       } else {
-        res.status(204).send(data);
+        res.status(204).send('Reported!');
       }
     })
   }

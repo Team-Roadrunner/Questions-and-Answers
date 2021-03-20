@@ -1,7 +1,7 @@
 const fs = require('fs');
 const path = require('path');
 const mongoose = require('mongoose');
-const {QuestionsTest} = require('./index.js');
+const {Questions} = require('./index.js');
 const byline = require('byline');
 
 var stream = fs.createReadStream('../data/questions.csv');
@@ -11,7 +11,7 @@ mongoose.connection.on('open', function(err,conn) {
 
   console.log('RUNNING...')
   console.time('seed')
-  var bulk = QuestionsTest.collection.initializeOrderedBulkOp();
+  var bulk = Questions.collection.initializeOrderedBulkOp();
   var counter = 0;
 
   stream.on("error", function(err) {
@@ -21,14 +21,15 @@ mongoose.connection.on('open', function(err,conn) {
   stream.on("data",function(line) {
     var row = line.toString('utf-8').split(",");
     const obj = {
-      _id: Number(row[0]),
+      question_id: Number(row[0]),
       product_id: Number(row[1]),
-      body: row[2],
-      date_written: row[3],
+      question_body: row[2],
+      question_date: row[3],
       asker_name: row[4],
       asker_email: row[5],
       reported: Number(row[6]),
-      helpful: Number(row[7]),
+      question_helpfulness: Number(row[7]),
+      answers: []
     }
 
     bulk.insert(obj);
@@ -44,7 +45,7 @@ mongoose.connection.on('open', function(err,conn) {
 
       bulk.execute(function(err, result) {
         if (err) throw err
-        bulk = QuestionsTest.collection.initializeOrderedBulkOp();
+        bulk = Questions.collection.initializeOrderedBulkOp();
 
         stream.resume();
       })

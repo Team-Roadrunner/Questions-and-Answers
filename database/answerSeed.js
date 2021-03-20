@@ -1,16 +1,16 @@
 const fs = require('fs');
 const path = require('path')
 const mongoose = require('mongoose');
-const {QuestionsTest} = require('./index.js');
+const {Questions} = require('./index.js');
 const byline = require('byline');
 
-var stream = fs.createReadStream('../data/answers.csv');
+var stream = fs.createReadStream('../data/answersTest.csv');
 stream = byline.createStream(stream);
 
 mongoose.connection.on('open', function(err,conn) {
   console.log('RUNNING...')
   console.time('seed')
-  var bulk = QuestionsTest.collection.initializeOrderedBulkOp();
+  var bulk = Questions.collection.initializeOrderedBulkOp();
   var counter = 0;
 
   stream.on("error", function(err) {
@@ -20,17 +20,18 @@ mongoose.connection.on('open', function(err,conn) {
   stream.on("data",function(line) {
     var row = line.toString('utf-8').split(",");
     const answerObj = {
-      _id: Number(row[0]),
+      answer_id: Number(row[0]),
       question_id: Number(row[1]),
       body: row[2],
-      date_written: row[3],
+      date: row[3],
       answerer_name: row[4],
       answerer_email: row[5],
       reported: Number(row[6]),
-      helpful: Number(row[7]),
+      helpfulness: Number(row[7]),
+      photos: []
     }
 
-    bulk.find({ _id: Number(row[1]) } ).upsert().update( { $push: { answers: answerObj } } )
+    bulk.find({ question_id: Number(row[1]) } ).upsert().update( { $push: { answers: answerObj } } )
 
     counter++;
 
@@ -43,7 +44,7 @@ mongoose.connection.on('open', function(err,conn) {
 
       bulk.execute(function(err, result) {
         if (err) throw err
-        bulk = QuestionsTest.collection.initializeOrderedBulkOp();
+        bulk = Questions.collection.initializeOrderedBulkOp();
 
         stream.resume();
       })

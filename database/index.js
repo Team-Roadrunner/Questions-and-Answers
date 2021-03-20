@@ -1,6 +1,6 @@
 const mongoose = require('mongoose');
 
-mongoose.connect('mongodb://localhost/qna', { useNewUrlParser: true });
+mongoose.connect('mongodb://localhost/qna', { useNewUrlParser: true,  useUnifiedTopology: true});
 
 const db = mongoose.connection;
 db.on('error', console.error.bind(console, 'connection error'));
@@ -9,19 +9,18 @@ db.once('open', function() {
 })
 
 const questionsSchema = mongoose.Schema({
-  _id: Number,
+  question_id: Number,
   product_id: Number,
   body: String,
-  date_written: Date,
+  question_date: Date,
   asker_name: String,
   asker_email: String,
   reported: Number,
-  question_helpfulness: Number,
-  helpful: Number,
+  question_helpfulness: Number
 });
 
 const answersSchema = mongoose.Schema({
-  _id: Number,
+  answer_id: Number,
   question_id: Number,
   body: String,
   date_written: Date,
@@ -37,14 +36,14 @@ const photosSchema = mongoose.Schema({
   url: String,
 });
 
-const QuestionsTest = mongoose.model('QuestionsTest', questionsSchema);
-const AnswersTest = mongoose.model('AnswersTest', answersSchema);
-const PhotosTest = mongoose.model('PhotosTest', photosSchema);
+const Questions = mongoose.model('Questions', questionsSchema);
+const Answers = mongoose.model('Answers', answersSchema);
+const Photos = mongoose.model('Photos', photosSchema);
 
 module.exports = {
-  QuestionsTest,
-  AnswersTest,
-  PhotosTest
+  Questions,
+  Answers,
+  Photos
 }
 // module.exports = Answers;
 // module.exports = questionsSchema;
