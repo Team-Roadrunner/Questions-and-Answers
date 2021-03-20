@@ -12,26 +12,28 @@ const questionsSchema = mongoose.Schema({
   question_id: Number,
   product_id: Number,
   body: String,
-  question_date: Date,
+  question_date: String,
   asker_name: String,
   asker_email: String,
   reported: Number,
-  question_helpfulness: Number
+  question_helpfulness: Number,
+  answers: []
 });
 
 const answersSchema = mongoose.Schema({
   answer_id: Number,
   question_id: Number,
   body: String,
-  date_written: Date,
+  date_written: String,
   answerer_name: String,
   answerer_email: String,
   reported: Number,
   helpful: Number,
+  photos: []
 });
 
 const photosSchema = mongoose.Schema({
-  _id: Number,
+  photo_id: Number,
   answer_id: Number,
   url: String,
 });

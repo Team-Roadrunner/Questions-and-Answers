@@ -69,7 +69,7 @@ const controller = {
       if (err) {
         res.status(400).send(err);
       } else {
-        res.status(204).send('Reported!');
+        res.json('Reported!');
       }
     })
   },
@@ -78,7 +78,7 @@ const controller = {
       if (err) {
         res.status(400).send(err);
       } else {
-        res.status(204).send('Reported!');
+        res.json('Reported!');
       }
     })
   }

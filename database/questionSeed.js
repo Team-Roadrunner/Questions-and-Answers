@@ -4,6 +4,23 @@ const mongoose = require('mongoose');
 const {Questions} = require('./index.js');
 const byline = require('byline');
 
+var cleanString = (str) => {
+  let result = ''
+  for (let i = 0; i < str.length; i++) {
+    // only add first and last char if it's an alphabet character
+    if (i === 0 || i === str.length - 1) {
+      // https://coderrocketfuel.com/article/how-to-check-if-a-character-is-a-letter-using-javascript
+      if ((/[a-zA-Z]/).test(str[i])) {
+        result += str[i]
+      }
+    } else {
+      // other than that use the whole string
+      result += str[i]
+    }
+  }
+  return result
+}
+
 var stream = fs.createReadStream('../data/questions.csv');
 stream = byline.createStream(stream);
 

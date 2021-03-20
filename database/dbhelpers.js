@@ -1,4 +1,29 @@
-const { Questions } =  require('./');
+const { Questions, Answers, Photos } =  require('./');
+
+function getNumber(callback){
+  var n = Math.floor(Math.random()*1000000000);
+  Questions.findOne({'question_id': n}, function(err, result){
+      if (err) callback(err);
+      else if (result) return getNumber(callback);
+      else callback(null, n);
+  });
+}
+// const test = getNumber(function(error, number){
+//   console.log(number)
+// });
+
+function formatDate(date) {
+  var d = new Date(date),
+      month = '' + (d.getMonth() + 1),
+      day = '' + d.getDate(),
+      year = d.getFullYear();
+  if (month.length < 2)
+      month = '0' + month;
+  if (day.length < 2)
+      day = '0' + day;
+  return [year, month, day].join('-');
+}
+
 
 const helpers = {
   getQuestions: (req, callback) => {
@@ -8,12 +33,19 @@ const helpers = {
     .then((results) => callback(null, results))
   },
   postQuestion: (req, callback) => {
-    console.log(req.body)
+    // console.log(req.body)
     Questions.create({
+      question_id: Math.floor(Math.random()*1000000000),
+      product_id: req.body.product_id,
       body: req.body.body,
-      name: req.body.name,
-      email: req.body.email,
-      product_id: req.body.product_id
+      question_date: formatDate(new Date()),
+      asker_name: req.body.name,
+      asker_email: req.body.email,
+      reported: 0,
+      question_helpfulness: 0
+    })
+    .then((results) => {
+      callback(null, results)
     })
   },
   getAnswers: (req, callback) => {
@@ -23,35 +55,43 @@ const helpers = {
     .then((results) => callback(null, results))
   },
   postAnswer: (req, callback) => {
-    Questions.create({
-      body: req.body.body,
-      name: req.body.name,
-      email: req.body.email,
-      product_id: req.body.product_id
+    let photos = [];
+    let a_id = Math.floor(Math.random()*1000000000)
+    let q_id = Number(req.params.question_id)
+    req.body.photos.forEach((photo_url) => {
+      console.log(photo_url)
+      let newPhotos = new Photos({
+        photo_id: Math.floor(Math.random()*1000000000),
+        answer_id: a_id,
+        url: photo_url
+      })
+      photos.push(newPhotos)
     })
+    let newAnswer = new Answers({
+      answer_id: a_id,
+      question_id: q_id,
+      body: req.body.body,
+      date_written: formatDate(new Date()),
+      answerer_name: req.body.name,
+      answerer_email: req.body.email,
+      reported: 0,
+      helpful: 0,
+      photos: photos
+    })
+    Questions.update(
+      {question_id: q_id},
+      {$push: {answers: newAnswer}},
+      (err, data) => {
+        if (err) callback(err)
+        else callback(null, data)
+      }
+    )
   },
   voteAnswerHelpful: (req, callback) => {
     let id = Number(req.params.answer_id)
-    // Questions.find({
-    //   answers: {$elemMatch: {answer_id: 5}}
-    // })
-    // .then((results) => {
-    //   // console.log('RESULTS', results)
-    //   let obj = results[0].toJSON();
-    //   obj.answers.forEach((answer => {
-    //     if (answer.answer_id === 5) {
-    //       answer.helpfulness = answer.helpfulness + 1
-    //     }
-    //   }))
-    //   // console.log(obj._id)
-    //   Questions.findOneAndUpdate(
-    //     {answers: {$elemMatch: {answer_id: 5}}},
-    //     {$set: {answers: obj.answers}}
-    //     )
-    // })
-    Questions.updateOne(
-      {answers: {$elemMatch: {answer_id: 1}}},
-      {$set: {helpfulness: 20}}, (err, data) => {
+    Questions.findOneAndUpdate(
+      {answers: {$elemMatch: {answer_id: id}}},
+      {$inc: {"answers.$.helpfulness": 1}}, (err, data) => {
       if (err) callback(err)
       else callback(null, data)
     })
