@@ -38,7 +38,7 @@ const photosSchema = mongoose.Schema({
   url: String,
 });
 
-const Questions = mongoose.model('Questions', questionsSchema);
+const Questions = mongoose.model('QuestionsandAnswers', questionsSchema);
 const Answers = mongoose.model('Answers', answersSchema);
 const Photos = mongoose.model('Photos', photosSchema);
 

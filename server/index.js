@@ -3,6 +3,7 @@ const cors = require('cors');
 const morgan = require('morgan');
 const bodyParser = require('body-parser');
 const router = require('./router.js')
+const newRelic = require('newrelic');
 
 const server = express();
 const port = 3000;

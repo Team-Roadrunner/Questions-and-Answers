@@ -21,7 +21,7 @@ var cleanString = (str) => {
   return result
 }
 
-var stream = fs.createReadStream('../data/questions.csv');
+var stream = fs.createReadStream('./data/questions.csv');
 stream = byline.createStream(stream);
 
 mongoose.connection.on('open', function(err,conn) {
@@ -40,10 +40,10 @@ mongoose.connection.on('open', function(err,conn) {
     const obj = {
       question_id: Number(row[0]),
       product_id: Number(row[1]),
-      question_body: row[2],
-      question_date: row[3],
-      asker_name: row[4],
-      asker_email: row[5],
+      question_body: cleanString(row[2]),
+      question_date: cleanString(row[3]),
+      asker_name: cleanString(row[4]),
+      asker_email: cleanString(row[5]),
       reported: Number(row[6]),
       question_helpfulness: Number(row[7]),
       answers: []

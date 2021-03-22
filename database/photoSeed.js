@@ -4,7 +4,24 @@ const mongoose = require('mongoose');
 const {Questions} = require('./index.js');
 const byline = require('byline');
 
-var stream = fs.createReadStream('../data/answers_photos.csv');
+var cleanString = (str) => {
+  let result = ''
+  for (let i = 0; i < str.length; i++) {
+    // only add first and last char if it's an alphabet character
+    if (i === 0 || i === str.length - 1) {
+      // https://coderrocketfuel.com/article/how-to-check-if-a-character-is-a-letter-using-javascript
+      if ((/[a-zA-Z]/).test(str[i])) {
+        result += str[i]
+      }
+    } else {
+      // other than that use the whole string
+      result += str[i]
+    }
+  }
+  return result
+}
+
+var stream = fs.createReadStream('./data/answers_photos.csv');
 stream = byline.createStream(stream);
 
 mongoose.connection.on('open', function(err,conn) {
@@ -23,7 +40,7 @@ mongoose.connection.on('open', function(err,conn) {
     const obj = {
       id: Number(row[0]),
       answer_id: Number(row[1]),
-      url: row[2]
+      url: cleanString(row[2])
     }
 
     bulk.find({ answers: { $elemMatch: { answer_id: Number(row[1]) } } }).updateOne({ $addToSet: { "answers.$.photos": obj } })

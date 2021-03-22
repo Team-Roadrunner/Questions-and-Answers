@@ -58,15 +58,16 @@ const helpers = {
     let photos = [];
     let a_id = Math.floor(Math.random()*1000000000)
     let q_id = Number(req.params.question_id)
-    req.body.photos.forEach((photo_url) => {
-      console.log(photo_url)
-      let newPhotos = new Photos({
-        photo_id: Math.floor(Math.random()*1000000000),
-        answer_id: a_id,
-        url: photo_url
+    if (req.body.photos) {
+      req.body.photos.forEach((photo_url) => {
+        let newPhotos = new Photos({
+          photo_id: Math.floor(Math.random()*1000000000),
+          answer_id: a_id,
+          url: photo_url
+        })
+        photos.push(newPhotos)
       })
-      photos.push(newPhotos)
-    })
+    }
     let newAnswer = new Answers({
       answer_id: a_id,
       question_id: q_id,
@@ -107,7 +108,7 @@ const helpers = {
   reportQuestion: (req, callback) => {
     Questions.findOneAndUpdate({
       question_id: Number(req.params.question_id)
-    }, {$inc: {reported: 1}}, {new:true}, (err, data) => {
+    }, {$set: {reported: 1}}, {new:true}, (err, data) => {
         if (err) callback(err)
         else callback(null, data)
       }
