@@ -1,6 +1,6 @@
 const mongoose = require('mongoose');
 
-mongoose.connect('mongodb://localhost/qna', { useNewUrlParser: true,  useUnifiedTopology: true});
+mongoose.connect('mongodb://jordan:password@3.129.247.206:27017/qna', { useNewUrlParser: true,  useUnifiedTopology: true});
 
 const db = mongoose.connection;
 db.on('error', console.error.bind(console, 'connection error'));
@@ -9,8 +9,16 @@ db.once('open', function() {
 })
 
 const questionsSchema = mongoose.Schema({
-  question_id: Number,
-  product_id: Number,
+  question_id: {
+    type: Number,
+    index: true,
+    required:true
+  },
+  product_id: {
+    type: Number,
+    index: true,
+    required:true
+  },
   body: String,
   question_date: String,
   asker_name: String,
@@ -21,8 +29,16 @@ const questionsSchema = mongoose.Schema({
 });
 
 const answersSchema = mongoose.Schema({
-  answer_id: Number,
-  question_id: Number,
+  answer_id: {
+    type: Number,
+    index: true,
+    required:true
+  },
+  question_id: {
+    type: Number,
+    index: true,
+    required:true
+  },
   body: String,
   date_written: String,
   answerer_name: String,

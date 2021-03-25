@@ -3,7 +3,5 @@ database/data
 newrelic_agent.log
 newrelic.js
 script.js
-.gitignore
 *.pem
 *.sh
-loaderio-e2c41af736b42e5f9d0f29f36d6773b4.txt

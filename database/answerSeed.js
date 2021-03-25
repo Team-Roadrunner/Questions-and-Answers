@@ -26,7 +26,7 @@ stream = byline.createStream(stream);
 
 mongoose.connection.on('open', function(err,conn) {
   console.log('RUNNING...')
-  console.time('seed')
+  console.time('answer_seed')
   var bulk = Questions.collection.initializeOrderedBulkOp();
   var counter = 0;
 
@@ -74,6 +74,7 @@ mongoose.connection.on('open', function(err,conn) {
     if ( counter % 1000 != 0 )
         bulk.execute(function(err,result) {
             if (err) throw err;   // or something
+            console.time('answer_seed')
             console.log('DONE!')
         });
   });

@@ -27,7 +27,7 @@ stream = byline.createStream(stream);
 mongoose.connection.on('open', function(err,conn) {
 
   console.log('RUNNING...')
-  console.time('seed')
+  console.time('questions_seed')
   var bulk = Questions.collection.initializeOrderedBulkOp();
   var counter = 0;
 
@@ -76,7 +76,7 @@ mongoose.connection.on('open', function(err,conn) {
         bulk.execute(function(err,result) {
             if (err) throw err;
             console.log('DONE!')
-            console.timeEnd('seed')
+            console.timeEnd('questions_seed')
         });
   });
 });
