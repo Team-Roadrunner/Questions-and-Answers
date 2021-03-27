@@ -6,10 +6,17 @@ const controller = {
       if (err) {
         res.status(400).send(err);
       } else {
-        res.status(200).send({
-          product_id: data[0].product_id,
-          results: data
-        });
+        if (data[0] === undefined) {
+          res.status(200).send({
+            product_id: req.params.product_id,
+            results: []
+          });
+        } else {
+          res.status(200).send({
+            product_id: data[0].product_id,
+            results: data
+          });
+        }
       }
     })
   },

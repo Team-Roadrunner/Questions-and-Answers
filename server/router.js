@@ -3,9 +3,12 @@ const controller = require('./controller.js');
 
 // Get or post question by product ID
 router
+  .route('/qa/questions')
+  .post(controller.postQuestion)
+
+router
   .route('/qa/questions/:product_id')
   .get(controller.getQuestions)
-  .post(controller.postQuestion)
 
 // Get or post answer by question ID
 router

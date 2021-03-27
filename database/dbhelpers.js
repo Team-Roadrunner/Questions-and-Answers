@@ -33,7 +33,6 @@ const helpers = {
     .then((results) => callback(null, results))
   },
   postQuestion: (req, callback) => {
-    // console.log(req.body)
     Questions.create({
       question_id: Math.floor(Math.random()*1000000000),
       product_id: req.body.product_id,

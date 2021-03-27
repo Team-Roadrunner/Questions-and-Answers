@@ -1,6 +1,6 @@
 const mongoose = require('mongoose');
 
-mongoose.connect('mongodb://jordan:password@3.129.247.206:27017/qna', { useNewUrlParser: true,  useUnifiedTopology: true});
+mongoose.connect('mongodb://jordan:password@3.135.249.149:27017/qna', { useNewUrlParser: true,  useUnifiedTopology: true});
 
 const db = mongoose.connection;
 db.on('error', console.error.bind(console, 'connection error'));
